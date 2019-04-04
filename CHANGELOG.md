@@ -1,9 +1,11 @@
-# Change Log
+# Changelog
 
 All notable changes to the "scss-scope-helper" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.0.2]
 
-## [Unreleased]
+- Description files and package.json updates
+
+## [0.0.1]
 
 - Initial release

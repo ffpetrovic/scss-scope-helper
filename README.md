@@ -4,6 +4,9 @@ A helper extension that adds helper comments next to a closing bracket in SCSS c
 
 ![Screenshot](/art/screenshot.png)
 
+## Todo
+Support for `.vue` files
+
 ## Conflicting with other extensions, e.g. GitLens
 
 This extension is based on VSCode decorations. Extensions like GitLens use this feature, meaning that this extension may override some of them.
