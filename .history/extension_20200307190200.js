@@ -5,7 +5,7 @@ const vscode = require('vscode');
 /**
  * List of supported language IDs that the extension renders in
  * This is part of the script to prevent hightlighting for stuff like TS types, eg: "const stuff: <CustomType>"
- * @type {string[]}
+ * @type {[string]}
  */
 const supportedLanguages = [
   "scss",
