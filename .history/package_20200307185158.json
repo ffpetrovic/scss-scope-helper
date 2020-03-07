@@ -2,7 +2,7 @@
 	"name": "scss-scope-helper",
 	"displayName": "SCSS Scope Helper",
 	"description": "Add helpers next to the closing bracket of a scss block",
-	"version": "0.0.3",
+	"version": "0.0.2",
 	"publisher": "ffpetrovic",
 	"icon": "art/logo.png",
 	"engines": {
@@ -43,6 +43,6 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Elvanos/scss-scope-helper"
+		"url": "https://github.com/ffpetrovic/scss-scope-helper.git"
 	}
 }

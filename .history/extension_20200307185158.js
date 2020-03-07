@@ -1,25 +1,19 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-
-/**
- * List of supported language IDs that the extension renders in
- * This is part of the script to prevent hightlighting for stuff like TS types, eg: "const stuff: <CustomType>"
- * @type {string[]}
- */
-const supportedLanguages = [
-  "scss",
-  "stylus"
-]
+const parser = require('scss-parser');
 
 let decorationsActive = true
 
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
+
 /**
- * This method is called when your extension is activated.
- * Your extension is activated the very first time the command is executed.
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+	console.log('scss-scope-helper activated');
+
 	const decorationType = vscode.window.createTextEditorDecorationType({after: {margin: '0 0 0 1rem'}});
 
 	let activeEditor = vscode.window.activeTextEditor;
@@ -27,17 +21,12 @@ function activate(context) {
 	let timeout;
 	
 	function updateDecorations() {
-
-  // Instantly kill this if the language is wrong
-  if (!supportedLanguages.includes(activeEditor.document.languageId)) {
-    return;
-  }
-
 		if (!activeEditor || !decorationsActive) {
 			return;
 		}
 		if(!isBalancedParenthesis(activeEditor.document.getText())) {
 			activeEditor.setDecorations(decorationType, [])
+			console.log('scss-scope-helper: unbalanced brackets!')
 			return
 		}
 
@@ -46,7 +35,9 @@ function activate(context) {
 		const found = [];
 		let match;
 		while (match = regEx.exec(text)) {
+			let text = match;
 			const start = findClosingBracket(activeEditor.document.getText(), match.index + match[0].length - 1)
+			const end = start + 1
 
 			const contentText = '// ' + match[0].substring(0, match[0].length - 1)
 			
@@ -94,6 +85,7 @@ function activate(context) {
 	}, null, context.subscriptions);
 
 	vscode.workspace.onDidChangeTextDocument(event => {
+		console.log('CHANGE')
 		if (activeEditor && event.document === activeEditor.document) {
 			triggerUpdateDecorations();
 		}
@@ -117,24 +109,32 @@ function deactivate() {}
 function findClosingBracket(expression, index) {
 	let i;  
 	
-	// If index given is invalid and is not an opening bracket.  
+	// If index given is invalid and is  
+	// not an opening bracket.  
 	if (expression[index] !== '{') {  
+		// console.log(expression + ", " + index + ": -1\n");  
 		return -1;
 	}  
 
 	// Stack to store opening brackets.  
 	let st = [];  
 
-	// Traverse through string starting from given index.  
+	// Traverse through string starting from  
+	// given index.  
 	for (i = index; i < expression.length; i++) {  
 		
-		// If current character is an opening bracket push it in stack.  
+		// If current character is an  
+		// opening bracket push it in stack.  
 		if (expression[i] === '{') {  
 			st.push(expression[i]);  
-		} // If current character is a closing bracket, pop from stack. If stack is empty, then this closing bracket is required bracket.  
+		} // If current character is a closing  
+		// bracket, pop from stack. If stack  
+		// is empty, then this closing  
+		// bracket is required bracket.  
 		else if (expression[i] === '}') {  
 			st.pop();  
 			if (st.length === 0) {  
+				// console.log(expression + ", " + index + ": " + i + "\n");  
 				return i;  
 			}  
 		}  

@@ -5,7 +5,7 @@ const vscode = require('vscode');
 /**
  * List of supported language IDs that the extension renders in
  * This is part of the script to prevent hightlighting for stuff like TS types, eg: "const stuff: <CustomType>"
- * @type {string[]}
+ * @type {[string]}
  */
 const supportedLanguages = [
   "scss",
@@ -27,12 +27,6 @@ function activate(context) {
 	let timeout;
 	
 	function updateDecorations() {
-
-  // Instantly kill this if the language is wrong
-  if (!supportedLanguages.includes(activeEditor.document.languageId)) {
-    return;
-  }
-
 		if (!activeEditor || !decorationsActive) {
 			return;
 		}
